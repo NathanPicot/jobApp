@@ -7,6 +7,10 @@ const Personnage = () => import('@/entities/personnage/personnage.vue');
 const PersonnageUpdate = () => import('@/entities/personnage/personnage-update.vue');
 const PersonnageDetails = () => import('@/entities/personnage/personnage-details.vue');
 
+const Application = () => import('@/entities/application/application.vue');
+const ApplicationUpdate = () => import('@/entities/application/application-update.vue');
+const ApplicationDetails = () => import('@/entities/application/application-details.vue');
+
 const Job = () => import('@/entities/job/job.vue');
 const JobUpdate = () => import('@/entities/job/job-update.vue');
 const JobDetails = () => import('@/entities/job/job-details.vue');
@@ -43,6 +47,30 @@ export default {
       path: 'personnage/:personnageId/view',
       name: 'PersonnageView',
       component: PersonnageDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'application',
+      name: 'Application',
+      component: Application,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'application/new',
+      name: 'ApplicationCreate',
+      component: ApplicationUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'application/:applicationId/edit',
+      name: 'ApplicationEdit',
+      component: ApplicationUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'application/:applicationId/view',
+      name: 'ApplicationView',
+      component: ApplicationDetails,
       meta: { authorities: [Authority.USER] },
     },
     {

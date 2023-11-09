@@ -15,9 +15,18 @@ entity Enterprise{
     international Boolean
 }
 
+entity Application{
+	name3 String
+}
+
 relationship OneToMany {
 	Personnage{jobs} to Job  
 }
+
+relationship OneToMany {
+	Enterprise{app} to Application  
+}
+
 relationship ManyToMany {
 	Job{task} to Enterprise{job}
 }

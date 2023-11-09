@@ -34,7 +34,7 @@ public class Job implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "rel_job__task", joinColumns = @JoinColumn(name = "job_id"), inverseJoinColumns = @JoinColumn(name = "task_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "jobs" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "apps", "jobs" }, allowSetters = true)
     private Set<Enterprise> tasks = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

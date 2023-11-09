@@ -20,6 +20,12 @@
   "name": "Enterprise",
   "relationships": [
     {
+      "otherEntityName": "application",
+      "relationshipName": "app",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
       "otherEntityName": "job",
       "otherEntityRelationshipName": "task",
       "relationshipName": "job",

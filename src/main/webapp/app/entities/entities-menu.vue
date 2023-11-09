@@ -4,6 +4,10 @@
       <font-awesome-icon icon="asterisk" />
       <span v-text="t$('global.menu.entities.personnage')"></span>
     </b-dropdown-item>
+    <b-dropdown-item to="/application">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="t$('global.menu.entities.application')"></span>
+    </b-dropdown-item>
     <b-dropdown-item to="/job">
       <font-awesome-icon icon="asterisk" />
       <span v-text="t$('global.menu.entities.job')"></span>

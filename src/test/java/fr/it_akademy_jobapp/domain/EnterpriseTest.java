@@ -1,5 +1,6 @@
 package fr.it_akademy_jobapp.domain;
 
+import static fr.it_akademy_jobapp.domain.ApplicationTestSamples.*;
 import static fr.it_akademy_jobapp.domain.EnterpriseTestSamples.*;
 import static fr.it_akademy_jobapp.domain.JobTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,6 +24,28 @@ class EnterpriseTest {
 
         enterprise2 = getEnterpriseSample2();
         assertThat(enterprise1).isNotEqualTo(enterprise2);
+    }
+
+    @Test
+    void appTest() throws Exception {
+        Enterprise enterprise = getEnterpriseRandomSampleGenerator();
+        Application applicationBack = getApplicationRandomSampleGenerator();
+
+        enterprise.addApp(applicationBack);
+        assertThat(enterprise.getApps()).containsOnly(applicationBack);
+        assertThat(applicationBack.getEnterprise()).isEqualTo(enterprise);
+
+        enterprise.removeApp(applicationBack);
+        assertThat(enterprise.getApps()).doesNotContain(applicationBack);
+        assertThat(applicationBack.getEnterprise()).isNull();
+
+        enterprise.apps(new HashSet<>(Set.of(applicationBack)));
+        assertThat(enterprise.getApps()).containsOnly(applicationBack);
+        assertThat(applicationBack.getEnterprise()).isEqualTo(enterprise);
+
+        enterprise.setApps(new HashSet<>());
+        assertThat(enterprise.getApps()).doesNotContain(applicationBack);
+        assertThat(applicationBack.getEnterprise()).isNull();
     }
 
     @Test
