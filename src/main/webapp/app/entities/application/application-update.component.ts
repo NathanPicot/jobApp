@@ -3,20 +3,26 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 
-import EnterpriseService from './enterprise.service';
+import ApplicationService from './application.service';
 import { useValidation } from '@/shared/composables';
 import { useAlertService } from '@/shared/alert/alert.service';
 
-import { type IEnterprise, Enterprise } from '@/shared/model/enterprise.model';
+import EnterpriseService from '@/entities/enterprise/enterprise.service';
+import { type IEnterprise } from '@/shared/model/enterprise.model';
+import { type IApplication, Application } from '@/shared/model/application.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
-  name: 'EnterpriseUpdate',
+  name: 'ApplicationUpdate',
   setup() {
-    const enterpriseService = inject('enterpriseService', () => new EnterpriseService());
+    const applicationService = inject('applicationService', () => new ApplicationService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
-    const enterprise: Ref<IEnterprise> = ref(new Enterprise());
+    const application: Ref<IApplication> = ref(new Application());
+
+    const enterpriseService = inject('enterpriseService', () => new EnterpriseService());
+
+    const enterprises: Ref<IEnterprise[]> = ref([]);
     const isSaving = ref(false);
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'en'), true);
 
@@ -25,42 +31,46 @@ export default defineComponent({
 
     const previousState = () => router.go(-1);
 
-    const retrieveEnterprise = async enterpriseId => {
+    const retrieveApplication = async applicationId => {
       try {
-        const res = await enterpriseService().find(enterpriseId);
-        enterprise.value = res;
+        const res = await applicationService().find(applicationId);
+        application.value = res;
       } catch (error) {
         alertService.showHttpError(error.response);
       }
     };
 
-    if (route.params?.enterpriseId) {
-      retrieveEnterprise(route.params.enterpriseId);
+    if (route.params?.applicationId) {
+      retrieveApplication(route.params.applicationId);
     }
 
-    const initRelationships = () => {};
+    const initRelationships = () => {
+      enterpriseService()
+        .retrieve()
+        .then(res => {
+          enterprises.value = res.data;
+        });
+    };
 
     initRelationships();
 
     const { t: t$ } = useI18n();
     const validations = useValidation();
     const validationRules = {
-      name2: {},
-      nbEmployee: {},
-      international: {},
-      apps: {},
-      jobs: {},
+      name3: {},
+      enterprise: {},
     };
-    const v$ = useVuelidate(validationRules, enterprise as any);
+    const v$ = useVuelidate(validationRules, application as any);
     v$.value.$validate();
 
     return {
-      enterpriseService,
+      applicationService,
       alertService,
-      enterprise,
+      application,
       previousState,
       isSaving,
       currentLanguage,
+      enterprises,
       v$,
       t$,
     };
@@ -69,25 +79,25 @@ export default defineComponent({
   methods: {
     save(): void {
       this.isSaving = true;
-      if (this.enterprise.id) {
-        this.enterpriseService()
-          .update(this.enterprise)
+      if (this.application.id) {
+        this.applicationService()
+          .update(this.application)
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showInfo(this.t$('jobApp.enterprise.updated', { param: param.id }));
+            this.alertService.showInfo(this.t$('jobApp.application.updated', { param: param.id }));
           })
           .catch(error => {
             this.isSaving = false;
             this.alertService.showHttpError(error.response);
           });
       } else {
-        this.enterpriseService()
-          .create(this.enterprise)
+        this.applicationService()
+          .create(this.application)
           .then(param => {
             this.isSaving = false;
             this.previousState();
-            this.alertService.showSuccess(this.t$('jobApp.enterprise.created', { param: param.id }).toString());
+            this.alertService.showSuccess(this.t$('jobApp.application.created', { param: param.id }).toString());
           })
           .catch(error => {
             this.isSaving = false;

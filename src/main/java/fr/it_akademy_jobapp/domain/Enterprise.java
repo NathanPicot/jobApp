@@ -34,6 +34,11 @@ public class Enterprise implements Serializable {
     @Column(name = "international")
     private Boolean international;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "enterprise")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "enterprise" }, allowSetters = true)
+    private Set<Application> apps = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tasks")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "tasks", "personnage" }, allowSetters = true)
@@ -91,6 +96,37 @@ public class Enterprise implements Serializable {
 
     public void setInternational(Boolean international) {
         this.international = international;
+    }
+
+    public Set<Application> getApps() {
+        return this.apps;
+    }
+
+    public void setApps(Set<Application> applications) {
+        if (this.apps != null) {
+            this.apps.forEach(i -> i.setEnterprise(null));
+        }
+        if (applications != null) {
+            applications.forEach(i -> i.setEnterprise(this));
+        }
+        this.apps = applications;
+    }
+
+    public Enterprise apps(Set<Application> applications) {
+        this.setApps(applications);
+        return this;
+    }
+
+    public Enterprise addApp(Application application) {
+        this.apps.add(application);
+        application.setEnterprise(this);
+        return this;
+    }
+
+    public Enterprise removeApp(Application application) {
+        this.apps.remove(application);
+        application.setEnterprise(null);
+        return this;
     }
 
     public Set<Job> getJobs() {

@@ -54,6 +54,8 @@ public class CacheConfiguration {
             createCache(cm, fr.it_akademy_jobapp.domain.Job.class.getName() + ".tasks");
             createCache(cm, fr.it_akademy_jobapp.domain.Enterprise.class.getName());
             createCache(cm, fr.it_akademy_jobapp.domain.Enterprise.class.getName() + ".jobs");
+            createCache(cm, fr.it_akademy_jobapp.domain.Application.class.getName());
+            createCache(cm, fr.it_akademy_jobapp.domain.Enterprise.class.getName() + ".apps");
             // jhipster-needle-ehcache-add-entry
         };
     }
