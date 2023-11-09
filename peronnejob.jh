@@ -1,0 +1,32 @@
+entity Personnage{
+	name String 
+    age Integer
+    birthday Instant
+    
+}
+
+
+entity Job{
+	name1 String
+    salary Double
+}
+
+entity Enterprise{
+	name2 String
+    nbEmployee Double
+    international Boolean
+    
+}
+
+
+
+relationship OneToMany {
+	Personnage{jobs} to Job
+    
+}
+relationship ManyToMany {
+	Job{task(title)} to Enterprise{job}
+}
+
+dto Personnage, Job, Enterprise with mapstruct
+service Personnage, Job, Enterprise with serviceImpl
