@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20231109105921",
+  "dto": "mapstruct",
+  "entityTableName": "enterprise",
+  "fields": [
+    {
+      "fieldName": "name2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nbEmployee",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "international",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "Enterprise",
+  "relationships": [
+    {
+      "otherEntityName": "job",
+      "otherEntityRelationshipName": "task",
+      "relationshipName": "job",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
