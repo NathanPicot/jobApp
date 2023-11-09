@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20231109105721",
+  "dto": "mapstruct",
+  "entityTableName": "personnage",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "age",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "birthday",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Personnage",
+  "relationships": [
+    {
+      "otherEntityName": "job",
+      "relationshipName": "jobs",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
